@@ -1,10 +1,11 @@
-from PyQt4 import QtGui, QtCore
-from PyQt4.QtGui import QStandardItem,QStandardItemModel
-import loading_dialog_ui,main_window_ui
+import datetime
 
+from PyQt4 import QtGui, QtCore
+
+import ui.loading_dialog_ui
+import ui.main_window_ui
 from pyuarm import *
 from pyuarm.calibrate import Calibration
-import datetime
 
 __version__ = "1.0"
 
@@ -22,13 +23,13 @@ style_confirm_green = "background-color: rgb(0,200,0);border-radius: 17px "
 style_confirm_yellow = "background-color: rgb(230,230,0);border-radius: 17px "
 
 
-class LoadingDialog(QtGui.QDialog, loading_dialog_ui.Ui_loadingWindow):
+class LoadingDialog(QtGui.QDialog, ui.loading_dialog_ui.Ui_loadingWindow):
     def __init__(self):
         super(self.__class__, self).__init__()
         self.setupUi(self)
 
 
-class MainWindow(QtGui.QMainWindow, main_window_ui.Ui_mainWindow):
+class MainWindow(QtGui.QMainWindow, ui.main_window_ui.Ui_mainWindow):
     uarm = None
     calibration = None
     label_linear_servo_intercept = []
