@@ -1,3 +1,10 @@
+## [1.2.1] - 2016-06-12
+### Update - Alex Tan
+
+### Fix
+- UnkwonFirmwareException Show messagebox
+
+
 ## [1.2] - 2016-06-12
 ### Update - Alex Tan
 

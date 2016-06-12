@@ -5,7 +5,7 @@ from PyQt4 import QtGui, QtCore
 import ui.loading_dialog_ui
 import ui.main_window_ui
 from pyuarm import *
-from pyuarm.calibrate import Calibration
+from pyuarm.tools.calibrate import Calibration
 
 __version__ = "1.0"
 
@@ -94,12 +94,15 @@ class MainWindow(QtGui.QMainWindow, ui.main_window_ui.Ui_mainWindow):
         self.uarm = None
         self.calibration = None
         if len(ports) > 0:
-            self.uarm = get_uarm()
-            self.calibration = Calibration(self.uarm, self.uf_print)
-            self.label_port_val.setText(self.uarm.port)
-            fw_version = self.uarm.firmware_version
-            self.label_firmware_version_val.setText(fw_version)
-            self.uf_print(self.tr("Connect to Port: " + self.uarm.port))
+            try:
+                self.uarm = get_uarm()
+                self.calibration = Calibration(self.uarm, self.uf_print)
+                self.label_port_val.setText(self.uarm.port)
+                fw_version = self.uarm.firmware_version
+                self.label_firmware_version_val.setText(fw_version)
+                self.uf_print(self.tr("Connect to Port: " + self.uarm.port))
+            except UnkwonFirmwareException as e:
+                show_message_box(self.tr("Unkwon Firmware Version, Please use 'pyuarm.tools.firmware_helper' upgrade your firmware"))
         else:
             self.uf_print(self.tr("Please Connect uArm"))
 
