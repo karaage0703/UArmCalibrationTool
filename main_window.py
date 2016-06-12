@@ -90,14 +90,14 @@ class MainWindow(QtGui.QMainWindow, ui.main_window_ui.Ui_mainWindow):
         self.init_uarm_sn()
 
     def init_port(self):
-        uarm_ports = list_uarms()
+        ports = uarm_ports()
         self.uarm = None
         self.calibration = None
-        if len(uarm_ports) > 0:
+        if len(ports) > 0:
             self.uarm = get_uarm()
             self.calibration = Calibration(self.uarm, self.uf_print)
             self.label_port_val.setText(self.uarm.port)
-            fw_version = self.uarm.get_firmware_version()
+            fw_version = self.uarm.firmware_version
             self.label_firmware_version_val.setText(fw_version)
             self.uf_print(self.tr("Connect to Port: " + self.uarm.port))
         else:
@@ -122,7 +122,7 @@ class MainWindow(QtGui.QMainWindow, ui.main_window_ui.Ui_mainWindow):
 
     def start_all_calibration(self):
         if self.uarm is not None:
-            if self.uarm.isConnected():
+            if self.uarm.is_connected():
                 if not self.calibration_start_flag:
                     self.calibration.calibrate_all(self.linear_calibration_start, self.manual_calibration_start, self.stretch_calibration_start)
                     self.calibration_start_flag = False
@@ -172,7 +172,7 @@ class MainWindow(QtGui.QMainWindow, ui.main_window_ui.Ui_mainWindow):
     def linear_calibration_start(self):
         self.write_notification(self.tr("Calibrating Linear Offset"))
         if self.uarm is not None:
-            if self.uarm.isConnected():
+            if self.uarm.is_connected():
                 self.calibration.linear_calibration_section(self.check_linear_completed)
                 self.write_notification(self.tr("Linear Offset Calibration Completed"))
                 self.calibration.init_calibration_completed_flag()
@@ -191,7 +191,7 @@ class MainWindow(QtGui.QMainWindow, ui.main_window_ui.Ui_mainWindow):
         if self.calibration.is_linear_calibrated:
             self.write_notification(self.tr("Manual Calibration Start"))
             if self.uarm is not None:
-                if self.uarm.isConnected():
+                if self.uarm.is_connected():
                     self.calibration.manual_calibration_section(self.check_manual_completed)
                     self.write_notification(self.tr("Manual Calibration Completed"))
                     self.button_manual_calibration_confirm.setVisible(False)
@@ -218,7 +218,7 @@ class MainWindow(QtGui.QMainWindow, ui.main_window_ui.Ui_mainWindow):
                 self.write_notification(self.tr("Stretch Offset Calibration Start"))
                 self.stretch_calibration_flag = True
                 if self.uarm is not None:
-                    if self.uarm.isConnected():
+                    if self.uarm.is_connected():
                         self.calibration.stretch_calibration_section(self.check_stretch_offset_completed)
                         self.write_notification(self.tr("Stretch Offset Calibration Completed"))
                         self.calibration.init_calibration_completed_flag()

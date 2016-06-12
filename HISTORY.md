@@ -1,3 +1,9 @@
+## [1.2] - 2016-06-12
+### Update - Alex Tan
+
+### Fix
+- Support pyuarm v1.3.x
+
 ## [1.1] - 2016-05-12
 ### Create - Alex Tan
 
