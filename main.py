@@ -1,5 +1,6 @@
 import sys
 import os
+import locale
 
 from PyQt4 import QtGui
 from PyQt4.QtCore import QTranslator
@@ -15,12 +16,17 @@ translate_file_path = os.path.join(application_path, 'resources', 'languages.qm'
 
 def main():
     app = QtGui.QApplication(sys.argv)
-    trans = QTranslator()
-    trans.load(translate_file_path)
-    app.installTranslator(trans)
+    if locale.getdefaultlocale()[0] == 'zh_CN':
+        trans = QTranslator()
+        trans.load(translate_file_path)
+        app.installTranslator(trans)
     form = main_window.MainWindow()
     form.show()
+
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except SystemExit:
+        print ("Exit")
